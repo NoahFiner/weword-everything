@@ -3,6 +3,18 @@ const http = require('http');
 const socketIo = require('socket.io');
 const mongoose = require('mongoose');
 
+
+const redis = require('redis');
+
+// create and connect redis client to local instance.
+const client = redis.createClient(6379);
+ 
+// echo redis errors to the console
+client.on('error', (err) => {
+    console.log("Error " + err);
+});
+
+
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
@@ -71,7 +83,6 @@ io.on("connection", socket => {
         } else {
           if(Object.values(users[room]).some(name => name === username)) {
             // TODO: test this
-            // TODO: how do u kick someone out
             callback("Someone named " + username + " is already writing in this story");
             return;
           } else {
@@ -89,6 +100,8 @@ io.on("connection", socket => {
             socket.emit("sendWords", []);
           }
         }
+
+        client.setex('users', 999999, JSON.stringify(users));
         io.to(room).emit("sendUsers", Object.values(users[room]));
         socket.emit("sendWords", words[room]);
       } catch(error) {
@@ -151,5 +164,8 @@ io.on("connection", socket => {
       } else {
         io.to(room).emit("sendUsers", Object.values(users[room]));
       }
+      client.setex('users', 999999, JSON.stringify(users));
     });
 });
+
+// module.exports = { users }

@@ -49,7 +49,12 @@ class Home extends Component {
                   <Book create />
                 </Link>
               </CSSTransition>
-              {stories.map((story, idx) => {
+              {stories.sort((a, b) => {
+                if (a.onlineCount === b.onlineCount) {
+                  return a.length < b.length ? 1 : -1
+               }
+               return a.onlineCount < b.onlineCount ? 1 : -1;
+              }).map((story, idx) => {
                 return (<CSSTransition key={story._id} timeout={500} style={{transitionDelay: idx*100+'ms'}} classNames="story">
                   <Link to={"/stories/" + story._id}>
                     <Book story={story} />
