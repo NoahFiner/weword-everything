@@ -10,6 +10,15 @@ class LeftNavbar extends Component {
         <h1>{this.props.story.name}</h1>
         <p>{this.props.story.description}</p>
         <div className="divider"></div>
+        <h3>Currently online</h3>
+        {this.props.users.map((user, idx) => {
+          return (
+            <div className="user" key={'user' + idx}>
+              <div class="online"></div>
+              <p>{user}</p>
+            </div>
+          )
+        })}
       </div>
     );
   }

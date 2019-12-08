@@ -41,18 +41,45 @@ const io = socketIo(server);
 
 server.listen(port, () => console.log('listening on port', port));
 
+// in the format of room ids to arrays of words
 let words = {};
 
 let timeout = {};
+
+// in the form of room ids to maps of socket ids to usernames
+let users = {};
+// in the form of socket ids to rooms
+let socketIdsToRooms = {};
 
 const {writeWord, getWords} = require("./helpers/wordHelpers");
 
 io.on("connection", socket => {
     console.log("new user connected");
 
-    socket.on('join', async ({room}) => {
+    socket.on('join', async ({room, username}, callback) => {
       try {
+
+        console.log(username + " is joining " + room);
         socket.join(room);
+
+        // if the room doesn't exist yet
+        if(!(room in users)) {
+          users[room] = {};
+        }
+        if(!username) {
+          users[room][socket.id] = "Guest";
+        } else {
+          if(Object.values(users[room]).some(name => name === username)) {
+            // TODO: test this
+            // TODO: how do u kick someone out
+            callback("Someone named " + username + " is already writing in this story");
+            return;
+          } else {
+            users[room][socket.id] = username;
+          }
+        }
+
+        socketIdsToRooms[socket.id] = room;
 
         // if the words for this story haven't been loaded yet
         if(!(room in words)) {
@@ -62,6 +89,7 @@ io.on("connection", socket => {
             socket.emit("sendWords", []);
           }
         }
+        io.to(room).emit("sendUsers", Object.values(users[room]));
         socket.emit("sendWords", words[room]);
       } catch(error) {
         callback(error);
@@ -75,6 +103,11 @@ io.on("connection", socket => {
       } else {
         if(!timeout[room]) {
           try {
+            if (!([socket.id] in users[room])) {
+              callback("you're not logged into this book, try refreshing the page");
+              return;
+            }
+            const username = users[room][socket.id];
             words[room].push({word});
 
             callback();
@@ -87,7 +120,7 @@ io.on("connection", socket => {
             // TODO: make this promise based also or something
             timeout[room] = setTimeout(async () => {
               // Room's id is going to be the storyId too
-              writtenWord = await writeWord(room, word);
+              writtenWord = await writeWord(room, word, username);
               words[room] = await getWords(room);
               //TODO: make the timeout longer for the person that submitted the word
               io.to(room).emit("enable");
@@ -102,5 +135,21 @@ io.on("connection", socket => {
       }
     });
 
-    socket.on("disconnect", () => console.log("client disconnected"));
+    socket.on("disconnect", () => {
+      // we need to find the room that this user was logged into which is kind of a pain
+      let room = socketIdsToRooms[socket.id];
+
+      console.log(socket.id + " is leaving " + room);
+
+      if(!room) return;
+      delete users[room][socket.id];
+      if(Object.values(users[room]).length === 0) {
+        delete words[room];
+        delete users[room];
+        delete socketIdsToRooms[socket.id];
+        io.to(room).emit("sendUsers", []);
+      } else {
+        io.to(room).emit("sendUsers", Object.values(users[room]));
+      }
+    });
 });

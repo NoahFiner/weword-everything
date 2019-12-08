@@ -13,4 +13,4 @@ COPY . .
 
 EXPOSE 4001
 
-CMD [ "node", "server.js" ]
+CMD [ "nodemon", "server.js" ]

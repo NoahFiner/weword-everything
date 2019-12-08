@@ -1,5 +1,10 @@
 import React, {Component} from 'react';
 import './Footer.scss';
+import {connect} from 'react-redux';
+
+const mapStateToProps = state => {
+  return { name: state.name, loggedIn: state.loggedIn };
+};
 
 class Footer extends Component {
   constructor(props) {
@@ -18,7 +23,7 @@ class Footer extends Component {
     event.preventDefault();
     let {storyId} = this.props;
 
-    this.props.socket.emit("addWord", {word: this.state.word.trim(), room: storyId}, (error) => {
+    this.props.socket.emit("addWord", {word: this.state.word.trim(), room: storyId, username: this.props.name}, (error) => {
       if(error) {
         if(error !== "duplicate word") {
           this.setState({error});
@@ -45,4 +50,4 @@ class Footer extends Component {
   }
 }
 
-export default Footer;
+export default connect(mapStateToProps)(Footer);

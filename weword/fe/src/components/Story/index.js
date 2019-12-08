@@ -5,21 +5,29 @@ import Footer from '../Footer';
 import LeftNavbar from '../LeftNavbar';
 import axios from 'axios';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import {connect} from 'react-redux';
 
-class Story extends Component {
+const mapStateToProps = state => {
+  return { name: state.name, loggedIn: state.loggedIn };
+};
+
+class ConnectedStory extends Component {
   constructor() {
     super();
     this.state = {
       story: {},
       words: [],
-      // TODO THIS IS HELLA INSECURE
       endpoint: process.env.API_URL || "http://127.0.0.1:4001",
       socket: null,
+      users: [],
       disabled: false,
     };
     console.log(process.env.NODE_ENV);
   }
 
+  componentWillUnmount() {
+    this.state.socket.close();
+  }
 
   async componentDidMount() {
     let {storyId} = this.props.match.params;
@@ -33,9 +41,12 @@ class Story extends Component {
       const socket = socketIOClient(endpoint);
       this.setState({socket});
 
-      socket.emit("join", {room: storyId}, error => {
+      console.log(this.props.name + " is joining");
+
+      socket.emit("join", {room: storyId, username: this.props.name}, error => {
         if(error) {
           alert(error);
+          this.props.history.push('/');
         }
       });
 
@@ -51,6 +62,10 @@ class Story extends Component {
       socket.on("enable", data => {
         this.setState({disabled: false});
       });
+
+      socket.on("sendUsers", data => {
+        this.setState({users: data});
+      });
     } catch(e) {
       console.error(e);
     }
@@ -61,7 +76,7 @@ class Story extends Component {
     console.log(words);
     return (
       <div>
-        <LeftNavbar story={this.state.story} />
+        <LeftNavbar story={this.state.story} users={this.state.users} />
         <div className="content-outer">
           <div className="content">
             <TransitionGroup>
@@ -79,5 +94,7 @@ class Story extends Component {
     );
   }
 }
+
+const Story = connect(mapStateToProps)(ConnectedStory);
 
 export default Story;

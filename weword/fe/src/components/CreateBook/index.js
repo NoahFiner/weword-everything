@@ -3,7 +3,6 @@ import Logo from '../Logo';
 import axios from 'axios';
 import './CreateBook.scss';
 import {withRouter} from 'react-router';
-import { faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
 class CreateBook extends Component {
   constructor() {

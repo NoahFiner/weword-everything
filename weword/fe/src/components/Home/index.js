@@ -6,6 +6,7 @@ import {
   Link,
 } from "react-router-dom";
 import Story from  '../Story';
+import Login from '../Login';
 import Book from '../Book';
 import Logo from '../Logo';
 import axios from 'axios';
@@ -41,6 +42,7 @@ class Home extends Component {
       <div className="everything-outer">
         <Logo size='150' />
         <h1>Write a story with a bunch of random people online</h1>
+        <Login></Login>
           <TransitionGroup className="books-outer">
               <CSSTransition key="create" timeout={0} classNames="story">
                 <Link to="/create">
