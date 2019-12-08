@@ -9,16 +9,16 @@ services:
   mongodb:
     image: "mongo"
     container_name: mongo
-    ports:
-      - "27017:27017"
+    #ports:
+    #  - "27017:27017"
     volumes:
       - mongodb:/data/db
       - mongodb_config:/data/configdb
   weword-be:
     build: ../weword/be
     container_name: weword-be
-    ports:
-      - "4001:4001"
+    #ports:
+    #  - "4001:4001"
     depends_on:
       - mongodb
       - redis
