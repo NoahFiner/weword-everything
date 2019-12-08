@@ -4,7 +4,7 @@ const { users } = require("../server");
 const redis = require('redis');
 const bluebird = require("bluebird");
 
-const client = redis.createClient(6379);
+const client = redis.createClient(process.env.REDIS_URL || 6379);
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
 
@@ -30,7 +30,6 @@ const StoriesController = {
         for(let i = 0; i < stories.length; i++) {
             stories[i].onlineCount = (users && stories[i]._id in users) ? Object.values(users[stories[i]._id]).length : 0;
         }
-        console.log(stories[0]);
         res.send({stories}).status(200);
     },
     async show(req, res) {

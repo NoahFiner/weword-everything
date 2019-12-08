@@ -8,9 +8,10 @@ COPY package*.json ./
 RUN npm install
 
 ENV MONGO_URL="mongo:27017"
+ENV REDIS_URL="redis://cache"
 
 COPY . .
 
 EXPOSE 4001
 
-CMD [ "nodemon", "server.js" ]
+CMD [ "node", "server.js" ]
