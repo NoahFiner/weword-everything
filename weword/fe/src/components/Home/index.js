@@ -44,23 +44,23 @@ class Home extends Component {
         <h1>Write a story with a bunch of random people online</h1>
         <Login></Login>
           <TransitionGroup className="books-outer">
-              <CSSTransition key="create" timeout={0} classNames="story">
-                <Link to="/create">
-                  <Book create />
-                </Link>
-              </CSSTransition>
               {stories.sort((a, b) => {
                 if (a.onlineCount === b.onlineCount) {
                   return a.length < b.length ? 1 : -1
                }
                return a.onlineCount < b.onlineCount ? 1 : -1;
               }).map((story, idx) => {
-                return (<CSSTransition key={story._id} timeout={500} style={{transitionDelay: idx*100+'ms'}} classNames="story">
+                return (<CSSTransition key={story._id} timeout={500} style={{transitionDelay: idx*25+'ms'}} classNames="story">
                   <Link to={"/stories/" + story._id}>
                     <Book story={story} />
                   </Link>
                 </CSSTransition>)
               })}
+              <CSSTransition key="create" timeout={stories.length*25+'ms'} style={{transitionDelay: stories.length*25+'ms'}} appear={true} classNames="story">
+                <Link to="/create">
+                  <Book create />
+                </Link>
+              </CSSTransition>
           </TransitionGroup>
       </div>
     );

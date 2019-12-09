@@ -31,15 +31,16 @@ h1 {
   justify-content: flex-start;
   flex-wrap: wrap;
   margin-left: -1rem;
+  margin-top: 5rem;
 }
 
-.story-enter {
+.story-appear, .story-enter {
   opacity: 0;
   transform: translateY(-25px);
   transition: opacity 0.5s, transform 0.5s;
 }
 
-.story-enter.story-enter-active {
+.story-appear-done, .story-enter-active {
   opacity: 1;
   transform: translateY(0);
   transition: opacity 0.5s, transform 0.5s;
