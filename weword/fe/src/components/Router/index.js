@@ -10,6 +10,11 @@ import CreateBook from '../CreateBook';
 import './RouterOuter.scss';
 
 class RouterOuter extends Component {
+
+  componentWillMount() {
+    document.title = 'WeWord'
+  }
+
   render() {
     return (
       <div className="outer">
