@@ -24,6 +24,8 @@ class ConnectedLogin extends Component {
       endpoint: process.env.API_URL || "http://127.0.0.1:4001",
     };
 
+    console.log("API URL", process.env.API_URL);
+
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }

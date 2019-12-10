@@ -23,6 +23,7 @@ class ConnectedStory extends Component {
       disabled: false,
     };
     console.log(process.env.NODE_ENV);
+    console.log("API URL", process.env.API_URL);
   }
 
   componentWillUnmount() {
