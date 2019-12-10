@@ -5,7 +5,6 @@ services:
     container_name: cache
     expose:
       - 6379
-
   mongodb:
     image: "mongo"
     container_name: mongo
@@ -17,8 +16,8 @@ services:
   weword-be:
     build: ../weword/be
     container_name: weword-be
-    #ports:
-    #  - "4001:4001"
+    ports:
+      - "4001:4001"
     depends_on:
       - mongodb
       - redis
@@ -30,9 +29,10 @@ services:
     container_name: weword-fe
     links:
       - weword-be
+    depends_on:
+      - weword-be
     ports:
       - "3000:3000"
-
 volumes:
   mongodb:
   mongodb_config:
