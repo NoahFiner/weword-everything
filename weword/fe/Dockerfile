@@ -10,7 +10,7 @@ COPY package*.json ./
 RUN npm install 
 RUN npm install react-scripts@3.0.1 -g 
 
-ENV API_URL="http://localhost:4001"
+ENV REACT_APP_API_URL="http://localhost:4001"
 
 COPY . .
 

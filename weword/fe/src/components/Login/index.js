@@ -21,10 +21,10 @@ class ConnectedLogin extends Component {
     this.state = {
       typedName: '',
       error: null,
-      endpoint: process.env.API_URL || "http://127.0.0.1:4001",
+      endpoint: process.env.REACT_APP_API_URL || "http://127.0.0.1:4001",
     };
 
-    console.log("API URL", process.env.API_URL);
+    console.log("API URL", process.env.REACT_APP_API_URL);
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);

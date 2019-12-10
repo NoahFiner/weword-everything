@@ -17,13 +17,13 @@ class ConnectedStory extends Component {
     this.state = {
       story: {},
       words: [],
-      endpoint: process.env.API_URL || "http://127.0.0.1:4001",
+      endpoint: process.env.REACT_APP_API_URL || "http://127.0.0.1:4001",
       socket: null,
       users: [],
       disabled: false,
     };
     console.log(process.env.NODE_ENV);
-    console.log("API URL", process.env.API_URL);
+    console.log("API URL", process.env.REACT_APP_API_URL);
   }
 
   componentWillUnmount() {
