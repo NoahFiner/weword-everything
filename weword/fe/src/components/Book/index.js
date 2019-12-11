@@ -22,10 +22,14 @@ class Book extends Component {
               </div>
               <div className="book-footer">
                 <p>{this.props.story.length} words</p>
-                <div className="online-outer">
-                  <div className={this.props.story.onlineCount ? "online" : ""}></div>
-                  <p className={this.props.story.onlineCount ? "online-text" : ""}>{this.props.story.onlineCount} writers online</p>
-                </div>
+                {
+                  !this.props.story.onlineCount ? <></> : (
+                    <div className="online-outer">
+                      <div className="online"></div>
+                      <p className="online-text">{this.props.story.onlineCount} writers online</p>
+                    </div>
+                  )
+                }
               </div>
             </>
           )
