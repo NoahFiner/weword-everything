@@ -13,7 +13,7 @@ class CreateBook extends Component {
       error: null,
       // TODO THIS IS HELLA INSECURE
       // endpoint: process.env.REACT_APP_API_URL || "http://127.0.0.1:4001",
-      endpoint: process.env.NODE_ENV === "production" ? "http://weword.co" : "http://127.0.0.1:4001",
+      endpoint: process.env.NODE_ENV === "production" ? "https://weword.co" : "http://127.0.0.1:4001",
     };
     console.log(process.env.NODE_ENV);
     console.log("API URL", process.env.REACT_APP_API_URL);
