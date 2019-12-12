@@ -5,7 +5,6 @@ import './CreateBook.scss';
 import {withRouter} from 'react-router';
 
 import ReactGA from 'react-ga';
-ReactGA.initialize('UA-59921773-10');
 
 class CreateBook extends Component {
   constructor() {
@@ -42,10 +41,10 @@ class CreateBook extends Component {
     }
     try {
       const {data} = await axios.post(this.state.endpoint + '/create', null, {params});
+      ReactGA.pageview("/stories/create");
       ReactGA.event({
         category: "Users",
         action: "Book creation",
-        value: params.name,
       });
       this.props.history.push('/stories/' + data.story._id);
     } catch(error) {

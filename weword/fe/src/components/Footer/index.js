@@ -3,7 +3,6 @@ import './Footer.scss';
 import {connect} from 'react-redux';
 
 import ReactGA from 'react-ga';
-ReactGA.initialize('UA-59921773-10');
 
 const mapStateToProps = state => {
   return { name: state.name, loggedIn: state.loggedIn };
@@ -33,19 +32,15 @@ class Footer extends Component {
 
     this.props.socket.emit("addWord", {word: this.state.word.trim(), room: storyId, username: this.props.name}, (error) => {
       if(error) {
-        if(error !== "duplicate word") {
-          ReactGA.event({
-            category: "Users",
-            action: "Failed write",
-            value: this.state.word.trim()
-          });
-          this.setState({error: JSON.stringify(error.message)});
-        }
+        ReactGA.event({
+          category: "Users",
+          action: "Failed write",
+        });
+        this.setState({error: error});
       } else {
         ReactGA.event({
           category: "Users",
           action: "Successful write",
-          value: this.state.word.trim()
         });
         this.setState({word: ''});
       }
