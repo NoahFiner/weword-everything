@@ -4,6 +4,9 @@ import axios from 'axios';
 import './CreateBook.scss';
 import {withRouter} from 'react-router';
 
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-59921773-10');
+
 class CreateBook extends Component {
   constructor() {
     super();
@@ -15,8 +18,6 @@ class CreateBook extends Component {
       // endpoint: process.env.REACT_APP_API_URL || "http://127.0.0.1:4001",
       endpoint: process.env.NODE_ENV === "production" ? "https://weword.co" : "http://127.0.0.1:4001",
     };
-    console.log(process.env.NODE_ENV);
-    console.log("API URL", process.env.REACT_APP_API_URL);
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,9 +40,13 @@ class CreateBook extends Component {
       name: this.state.title,
       description: this.state.description,
     }
-    console.log("submitting", params);
     try {
       const {data} = await axios.post(this.state.endpoint + '/create', null, {params});
+      ReactGA.event({
+        category: "Users",
+        action: "Book creation",
+        value: params.name,
+      });
       this.props.history.push('/stories/' + data.story._id);
     } catch(error) {
       console.log(error);

@@ -6,6 +6,7 @@ import LeftNavbar from '../LeftNavbar';
 import axios from 'axios';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import {connect} from 'react-redux';
+import moment from 'moment';
 
 const mapStateToProps = state => {
   return { name: state.name, loggedIn: state.loggedIn };
@@ -23,8 +24,6 @@ class ConnectedStory extends Component {
       users: [],
       disabled: false,
     };
-    console.log(process.env.NODE_ENV);
-    console.log("API URL", process.env.REACT_APP_API_URL);
   }
 
   componentWillUnmount() {
@@ -33,17 +32,16 @@ class ConnectedStory extends Component {
 
   async componentDidMount() {
     let {storyId} = this.props.match.params;
+
     const {endpoint} = this.state;
     try {
       const response = await axios.get(endpoint + "/stories/" + storyId);
       const {story} = response.data;
-      console.log(story);
       this.setState({story});
 
       const socket = socketIOClient(endpoint);
       this.setState({socket});
 
-      console.log(this.props.name + " is joining");
 
       socket.emit("join", {room: storyId, username: this.props.name}, error => {
         if(error) {
@@ -53,7 +51,6 @@ class ConnectedStory extends Component {
       });
 
       socket.on("sendWords", words => {
-        console.log("gettings sent words", words);
         this.setState({words});
       });
 
@@ -75,7 +72,6 @@ class ConnectedStory extends Component {
 
   render() {
     const {words} = this.state;
-    console.log(words);
     return (
       <div>
         <LeftNavbar story={this.state.story} users={this.state.users} />
@@ -83,8 +79,16 @@ class ConnectedStory extends Component {
           <div className="content">
             <TransitionGroup>
               {words.map((value, idx) => {
-                return (<CSSTransition timeout={500} classNames="word">
-                  <p key={idx} className="word">{value.word}</p>
+                const time = moment(value.createdAt).format("MM-DD-YYYY h:mm A");
+                return (<CSSTransition key={"transition"+idx} timeout={500} classNames="word">
+                  <>
+                  <p key={idx} className="word">
+                    {value.word}
+                  </p>
+                  <span className="user-view">
+                    by <span className="bold">{value.author}</span> on {time}
+                  </span>
+                  </>
                 </CSSTransition>)
               })}
               <div className="next-word"></div>

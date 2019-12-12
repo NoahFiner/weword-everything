@@ -12,7 +12,7 @@ import './RouterOuter.scss';
 class RouterOuter extends Component {
 
   componentWillMount() {
-    document.title = 'WeWord'
+    document.title = 'WeWord';
   }
 
   render() {

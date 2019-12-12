@@ -5,7 +5,6 @@ import './Book.scss';
 
 class Book extends Component {
   render() {
-    console.log(this.props.story);
     return (
       <div className={"book-outer " + (this.props.create ? "create" : "")}>
         {

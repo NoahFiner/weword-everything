@@ -26,6 +26,16 @@ h1 {
   padding: 2vw 10vw;
 }
 
+a.link {
+  text-decoration: underline;
+  color: #B09398;
+  transition: color 0.25s;
+
+  &:hover {
+    color: #333;
+  }
+}
+
 .books-outer {
   display: flex;
   justify-content: flex-start;

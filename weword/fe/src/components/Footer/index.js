@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import './Footer.scss';
 import {connect} from 'react-redux';
 
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-59921773-10');
+
 const mapStateToProps = state => {
   return { name: state.name, loggedIn: state.loggedIn };
 };
@@ -15,6 +18,11 @@ class Footer extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    let {storyId} = this.props;
+    ReactGA.pageview('/stories/' + storyId);
+  }
+
   handleChange(event) {
     this.setState({word: event.target.value, error: ''});
   }
@@ -26,9 +34,19 @@ class Footer extends Component {
     this.props.socket.emit("addWord", {word: this.state.word.trim(), room: storyId, username: this.props.name}, (error) => {
       if(error) {
         if(error !== "duplicate word") {
-          this.setState({error});
+          ReactGA.event({
+            category: "Users",
+            action: "Failed write",
+            value: this.state.word.trim()
+          });
+          this.setState({error: JSON.stringify(error.message)});
         }
       } else {
+        ReactGA.event({
+          category: "Users",
+          action: "Successful write",
+          value: this.state.word.trim()
+        });
         this.setState({word: ''});
       }
     });

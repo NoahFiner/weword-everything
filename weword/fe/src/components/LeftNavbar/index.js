@@ -14,7 +14,7 @@ class LeftNavbar extends Component {
         {this.props.users.map((user, idx) => {
           return (
             <div className="user" key={'user' + idx}>
-              <div class="online"></div>
+              <div className="online"></div>
               <p>{user}</p>
             </div>
           )

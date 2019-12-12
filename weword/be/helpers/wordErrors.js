@@ -1,3 +1,7 @@
+var Filter = require('bad-words'),
+    filter = new Filter();
+
+
 const baseErrorJSON = {
     minLength: 1,
     maxLength: 50,
@@ -5,6 +9,7 @@ const baseErrorJSON = {
     maxWords: 1,
     bannedCharacters: [],
     bannedWords: [],
+    clean: false,
 };
 
 const getWordError = (word, errorJSON) => {
@@ -19,6 +24,9 @@ const getWordError = (word, errorJSON) => {
     }
     if("maxWords" in errorJSON && word.split(' ').length > errorJSON.maxWords) {
         return "submission has more words than " + errorJSON.maxWords;
+    }
+    if("clean" in errorJSON && errorJSON.clean && filter.isProfane(word)) {
+        return "let's keep it civil :)";
     }
   
     lowerCaseWord = word.toLowerCase();

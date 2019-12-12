@@ -23,6 +23,7 @@ $break-large: 900px;
     margin-right: 0.5rem;
     border-radius: 100%;
     background-color: #CDDFD8;
+    // animation: blink 1.5s infinite;
   }
 }
 
@@ -31,4 +32,18 @@ $break-large: 900px;
   height: 1px;
   width: 30%;
   margin: 10px 0;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0.5
+  }
+
+  50% {
+    opacity: 1
+  }
+
+  100% {
+    opacity: 0.5
+  }
 }

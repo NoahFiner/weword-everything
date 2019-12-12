@@ -25,8 +25,6 @@ class ConnectedLogin extends Component {
       endpoint: process.env.NODE_ENV === "production" ? "https://weword.co" : "http://127.0.0.1:4001",
     };
 
-    console.log("API URL", process.env.REACT_APP_API_URL);
-
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -43,14 +41,16 @@ class ConnectedLogin extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    if(this.props.loggedIn) {
-      this.props.logout();
-    } else {
-      this.props.login(this.state.typedName);
+    try {
+      if(this.props.loggedIn) {
+        this.props.logout();
+      } else {
+        this.props.login(this.state.typedName);
+      }
+      this.setState({ typedName: "" });
+    } catch(e) {
+      this.setState({ error: e.message });
     }
-
-    this.setState({ typedName: "" });
-    console.log(this.props.loggedIn);
 
     // try {
     //   const {data} = await axios.post(this.state.endpoint + '/create', null, {params});
@@ -73,7 +73,7 @@ class ConnectedLogin extends Component {
           <>
             <input type="text" name="name" placeholder="what's your name?" value={this.state.typedName} onChange={this.handleInputChange} />
             <input type="submit" value="Log in" />
-            <p className="error" style={{display: (this.state.error ? "block" : "none")}}>Couldn't log in as that user</p>
+            <p className="error" style={{display: (this.state.error ? "block" : "none")}}>{(this.state.error || "Couldn't log in")}</p>
           </>
         )}
       </form>

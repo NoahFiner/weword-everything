@@ -73,6 +73,11 @@ io.on("connection", socket => {
     socket.on('join', async ({room, username}, callback) => {
       try {
 
+        if(username.length > 16) {
+          callback("Username " + username + " too long :(");
+          return;
+        }
+
         console.log(username + " is joining " + room);
         socket.join(room);
 
@@ -123,7 +128,7 @@ io.on("connection", socket => {
               return;
             }
             const username = users[room][socket.id];
-            words[room].push({word});
+            words[room].push({word, author: username});
 
             callback();
 
