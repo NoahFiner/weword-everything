@@ -47,6 +47,8 @@ connection.once('open', function() {
     console.log("MongoDB database connection established successfully");
 });
 
+app.use(express.static(__dirname + '/public'));
+
 const server = http.createServer(app);
 
 const io = socketIo(server);
