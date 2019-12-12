@@ -20,7 +20,8 @@ class Home extends Component {
     this.state = {
       stories: [],
       // TODO THIS IS HELLA INSECURE
-      endpoint: process.env.REACT_APP_API_URL || "http://127.0.0.1:4001",
+      // endpoint: process.env.REACT_APP_API_URL || "http://127.0.0.1:4001",
+      endpoint: process.env.NODE_ENV === "PRODUCTION" ? "http://localhost:4001" : "http://127.0.0.1:4001",
     };
     console.log(process.env.NODE_ENV);
     console.log("API URL", process.env.REACT_APP_API_URL);

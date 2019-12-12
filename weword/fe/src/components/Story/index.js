@@ -17,7 +17,8 @@ class ConnectedStory extends Component {
     this.state = {
       story: {},
       words: [],
-      endpoint: process.env.REACT_APP_API_URL || "http://127.0.0.1:4001",
+      // endpoint: process.env.REACT_APP_API_URL || "http://127.0.0.1:4001",
+      endpoint: process.env.NODE_ENV === "PRODUCTION" ? "http://localhost:4001" : "http://127.0.0.1:4001",
       socket: null,
       users: [],
       disabled: false,
