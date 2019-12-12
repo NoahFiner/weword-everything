@@ -17,22 +17,23 @@ services:
     build: ../weword/be
     container_name: weword-be
     ports:
-      - "4001:4001"
-    depends_on:
-      - mongodb
-      - redis
-    links:
-      - mongodb
-      - redis
-  weword-fe:
-    build: ../weword/fe
-    container_name: weword-fe
-    links:
-      - weword-be
-    depends_on:
-      - weword-be
-    ports:
+#      - "4001:4001"
       - "3000:3000"
+    depends_on:
+      - mongodb
+      - redis
+    links:
+      - mongodb
+      - redis
+#  weword-fe:
+#    build: ../weword/fe
+#    container_name: weword-fe
+#    links:
+#      - weword-be
+#    depends_on:
+#      - weword-be
+#    ports:
+#      - "3000:3000"
 volumes:
   mongodb:
   mongodb_config:

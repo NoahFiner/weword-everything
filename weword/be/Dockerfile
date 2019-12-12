@@ -12,6 +12,6 @@ ENV REDIS_URL="redis://cache"
 
 COPY . .
 
-EXPOSE 4001
+EXPOSE 3000
 
 CMD [ "node", "server.js" ]
