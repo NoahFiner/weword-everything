@@ -41,7 +41,7 @@ class Home extends Component {
     return (
       <div className="everything-outer">
         <Logo size='150' />
-        <h1>Write a story with a bunch of random people online, one word at a time</h1>
+        <h1>Write a story with a bunch of random people online</h1>
         <p>(and follow us at <a href="https://twitter.com/weword_co" className="link" target="_blank">@weword_co</a> or give <a className="link" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdTaoCoy686evMyAnDO5djYzo3JxUpRk2UFRQIM7rZ8iR49sw/viewform?usp=sf_link">anonymous feedback</a> while you're at it)</p>
         <Login></Login>
           <TransitionGroup className="books-outer">

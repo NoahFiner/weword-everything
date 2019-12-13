@@ -8,6 +8,9 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import {connect} from 'react-redux';
 import moment from 'moment';
 
+import * as Scroll from 'react-scroll';
+import { animateScroll as scroll } from 'react-scroll';
+
 const mapStateToProps = state => {
   return { name: state.name, loggedIn: state.loggedIn };
 };
@@ -33,6 +36,8 @@ class ConnectedStory extends Component {
   async componentDidMount() {
     let {storyId} = this.props.match.params;
 
+    let initialLoad = false;
+
     const {endpoint} = this.state;
     try {
       const response = await axios.get(endpoint + "/stories/" + storyId);
@@ -52,6 +57,12 @@ class ConnectedStory extends Component {
 
       socket.on("sendWords", words => {
         this.setState({words});
+        if(!initialLoad) {
+          initialLoad = true;
+          setTimeout(async () => {
+            scroll.scrollToBottom();
+          }, 750);
+        }
       });
 
       socket.on("disable", data => {

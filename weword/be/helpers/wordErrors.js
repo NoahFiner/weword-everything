@@ -1,15 +1,19 @@
 var Filter = require('bad-words'),
     filter = new Filter();
 
+var checkWord = require('check-word'),
+    words     = checkWord('en'); 
+    
 
 const baseErrorJSON = {
     minLength: 1,
-    maxLength: 50,
+    maxLength: 16,
     minWords: 1,
     maxWords: 1,
     bannedCharacters: [],
     bannedWords: [],
     clean: false,
+    dictionary: false,
 };
 
 const getWordError = (word, errorJSON) => {
@@ -28,8 +32,22 @@ const getWordError = (word, errorJSON) => {
     if("clean" in errorJSON && errorJSON.clean && filter.isProfane(word)) {
         return "let's keep it civil :)";
     }
-  
+    
     lowerCaseWord = word.toLowerCase();
+
+    // we include some single-characer letters because those aren't approved by the dictionary without our manual help
+    const punctuation = ['.', ',', '"', "'", '-', '!', '&', '(', ')', '=', '+', '/', '?', ':', ';', '~', 'i', 'o', 'u', 'a'];
+    const isPunctuation = !punctuation.every(char => char !== lowerCaseWord);
+
+    if(!(/^[a-zA-Z]+$/.test(lowerCaseWord)) && !isPunctuation && isNaN(lowerCaseWord)) {
+        return "word can either be a word, number, or punctuation";
+    }
+
+    if("dictionary" in errorJSON && errorJSON.dictionary && !words.check(lowerCaseWord)) {
+        return "word must be in dictionary or be a number/punctuation";
+    }
+
+
     if("bannedCharacters" in errorJSON && errorJSON.bannedCharacters.some(char => lowerCaseWord.includes(char.toLowerCase()))) {
         return "submission contains restricted character";
     }
