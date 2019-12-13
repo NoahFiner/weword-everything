@@ -12,7 +12,7 @@ const baseErrorJSON = {
     maxWords: 1,
     bannedCharacters: [],
     bannedWords: [],
-    clean: false,
+    clean: true,
     dictionary: false,
 };
 

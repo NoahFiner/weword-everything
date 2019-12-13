@@ -10,6 +10,10 @@ bluebird.promisifyAll(redis.RedisClient.prototype);
 
 bluebird.promisifyAll(redis.Multi.prototype);
 
+
+var Filter = require('bad-words'),
+    filter = new Filter();
+
  
 client.on('error', (err) => {
     console.log("Error " + err);
@@ -42,10 +46,15 @@ const StoriesController = {
         }
     },
     async create(req, res) {
+        const cleanName = filter.clean(req.query.name);
+        const cleanDesc = filter.clean(req.query.description);
         try {
+            if(!(/^[a-zA-Z]+$/.test(cleanName)) || !/^[a-zA-Z]+$/.test(cleanDesc)) {
+                throw new Error("must be lowercase");
+            }
             const story = new Story({
-                name: req.query.name,
-                description: req.query.description,
+                name: cleanName,
+                description: cleanDesc,
                 words: [],
             });
     
