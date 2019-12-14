@@ -60,15 +60,18 @@ const StoriesController = {
         }
     },
     async create(req, res) {
-        const cleanName = filter.clean(req.query.name);
-        const cleanDesc = filter.clean(req.query.description);
+        const badStrings = ["nig", "niig", "niiig", "niiiig", "niiiiig", "niiiiiig", "niiiiiiig", "niiiiiiiiig", "fcuk", "fuk", "fuck", "siht", "shit", "cunt", "cnut", "kkk"];
+
+        const testString = req.query.name.toLowerCase() + req.query.description.toLowerCase();
+        const isProfane = filter.isProfane(testString) || badStrings.some(str => testString.includes(str));
         try {
-            if(!(/^[a-zA-Z]+$/.test(cleanName)) || !/^[a-zA-Z]+$/.test(cleanDesc)) {
-                throw new Error("must be lowercase");
+            if(isProfane || !(/^[a-z\d\-_\s]+$/i.test(testString.toLowerCase()))) {
+                console.log("Failed to make book from " + req.query.name + " and " + req.query.description);
+                throw new Error("unknown error");
             }
             const story = new Story({
-                name: cleanName,
-                description: cleanDesc,
+                name: req.query.name,
+                description: req.query.description,
                 words: [],
             });
     
