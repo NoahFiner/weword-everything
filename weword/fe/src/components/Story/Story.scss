@@ -25,7 +25,8 @@ $break-large: 900px;
 
     @media screen and (max-width: $break-large) {
       width: 90%;
-      padding-bottom: 25vh !important;
+      padding-bottom: 20vh !important;
+      padding-top: 100vh;
     }
 
     .word {
