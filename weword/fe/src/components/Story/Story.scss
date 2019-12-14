@@ -25,12 +25,17 @@ $break-large: 900px;
 
     @media screen and (max-width: $break-large) {
       width: 90%;
+      padding-bottom: 25vh !important;
     }
 
     .word {
       display: inline-block;
       font-family: 'Crimson Text', Times, serif;
       font-size: 1.75rem;
+      @media screen and (max-width: $break-large) {
+        font-size: 1.5rem;
+      }
+
       padding: 5px;
       background-color: transparent;
       // cursor: pointer;

@@ -3,6 +3,8 @@ const {Story} = require("../models/story.model");
 var Filter = require('bad-words'),
     filter = new Filter();
 
+filter.addWords("bullshit", "bullshitter", "bullshat", "shat", "shitter");
+
 var checkWord = require('check-word'),
     words     = checkWord('en'); 
     
