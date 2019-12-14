@@ -11,6 +11,20 @@ bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
 
 
+// const getPastProfanity = (word, room) => {
+//     let result = [];
+//     const pastWords = Story.findById(room).populate('words').slice('words', -10)
+//     .select('words')
+//     .lean()
+//     .exec(function(err, group){
+//         group.forEach(item => {
+//             result.push(item.word);
+//         });
+//     });
+//     console.log('past', result);
+// }
+
+
 var Filter = require('bad-words'),
     filter = new Filter();
 
@@ -76,4 +90,4 @@ const StoriesController = {
     // TODO: add a clear function
 }
 
-module.exports = StoriesController;
+module.exports = {StoriesController};

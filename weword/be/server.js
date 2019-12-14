@@ -150,7 +150,7 @@ io.on("connection", socket => {
             callback(error);
           }
         } else {
-          callback("duplicate word");
+          callback("word submitted to fast!");
         }
       }
     });

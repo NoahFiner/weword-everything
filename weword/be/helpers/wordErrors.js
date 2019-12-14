@@ -1,3 +1,5 @@
+const {Story} = require("../models/story.model");
+
 var Filter = require('bad-words'),
     filter = new Filter();
 
@@ -13,7 +15,7 @@ const baseErrorJSON = {
     bannedCharacters: [],
     bannedWords: [],
     clean: true,
-    dictionary: false,
+    dictionary: true,
 };
 
 const getWordError = (word, errorJSON) => {
@@ -43,7 +45,7 @@ const getWordError = (word, errorJSON) => {
         return "word can either be a word, number, or punctuation";
     }
 
-    if("dictionary" in errorJSON && errorJSON.dictionary && !words.check(lowerCaseWord)) {
+    if("dictionary" in errorJSON && errorJSON.dictionary && !words.check(lowerCaseWord) && !isPunctuation && isNaN(lowerCaseWord)) {
         return "word must be in dictionary or be a number/punctuation";
     }
 
