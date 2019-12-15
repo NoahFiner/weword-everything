@@ -33,6 +33,10 @@ client.on('error', (err) => {
     console.log("Error " + err);
 });
 
+const hasWordTooLong = (text, length) => {
+    return text.split(" ").some(word => word.length > 15);
+}
+
 const StoriesController = {
     async index(req, res) {
         let users = {};
@@ -65,6 +69,11 @@ const StoriesController = {
         const testString = req.query.name.toLowerCase() + req.query.description.toLowerCase();
         const isProfane = filter.isProfane(testString) || badStrings.some(str => testString.includes(str));
         try {
+            if(req.query.name.length > 40 || req.query.description.length > 100
+                || hasWordTooLong(req.query.name, 15) || hasWordTooLong(req.query.description, 20)) {
+                console.log("Failed to make book from " + req.query.name + " and " + req.query.description);
+                throw new Error("story too long");
+            }
             if(isProfane || !(/^[a-z\d\-_\s]+$/i.test(testString.toLowerCase()))) {
                 console.log("Failed to make book from " + req.query.name + " and " + req.query.description);
                 throw new Error("unknown error");
