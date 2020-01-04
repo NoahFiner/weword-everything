@@ -1,12 +1,7 @@
 const {Word, Story} = require("../models");
-const { getWordError } = require("./wordErrors");
 
 const writeWord = async (storyId, wordText, author) => {
     const story = await Story.findById(storyId);
-    const wordError = getWordError(wordText, story.rules);
-    if(wordError) {
-        throw new Error({error: wordError});
-    }
 
     const word = new Word({
         word: wordText,

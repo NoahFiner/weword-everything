@@ -73,6 +73,24 @@ $break-large: 900px;
   }
 }
 
+.custom-outer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0.25rem 0;
+
+  .custom-icon {
+    height: 0.8rem;
+    width: 0.8rem;
+    margin-right: 0.25rem;
+    color: #fff;
+  }
+
+  p {
+    font-weight: 900;
+  }
+}
+
 
 .online-outer {
   display: flex;

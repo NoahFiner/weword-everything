@@ -15,12 +15,13 @@ label {
   span {
     font-size: 1rem;
     opacity: 0.5;
+    margin-top: 0.25rem;
     font-weight: 100;
     display: block;
   }
 }
 
-input[type=text] {
+input[type=text], input[type=number] {
   background-color: transparent;
   outline: 0;
   border: 0;
@@ -40,8 +41,15 @@ input[type=text] {
   }
 }
 
-input[type=submit] {
+input[type=number] {
+  width: 2em;
+}
+
+input[type=submit], .input-button {
+  font-size: 1rem;
+  width: auto;
   background-color: #B09398;
+  cursor: pointer;
   color: #fff;
   font-weight: 900;
   border-radius: 2px;
@@ -52,6 +60,10 @@ input[type=submit] {
   border: 0;
   display: block;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.input-button {
+  display: table
 }
 
 .error {

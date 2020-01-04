@@ -11,6 +11,24 @@ $break-large: 900px;
   }
 }
 
+.rules {
+  h3, p {
+    margin: 0.25em 0;
+  }
+
+  .icon {
+    margin-right: 0.25em;
+    height: 0.8em;
+    width: 0.8em;
+    margin-top: 0.1em;
+    color: #333;
+  }
+
+  span {
+    font-weight: 900;
+  }
+}
+
 .user {
   display: flex;
   justify-content: flex-start;

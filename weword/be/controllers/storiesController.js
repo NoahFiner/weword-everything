@@ -1,6 +1,8 @@
 const {Story} = require("../models");
 const { users } = require("../server");
 
+const { isWordProfane } = require('../helpers/wordErrors');
+
 const redis = require('redis');
 const bluebird = require("bluebird");
 
@@ -23,10 +25,6 @@ bluebird.promisifyAll(redis.Multi.prototype);
 //     });
 //     console.log('past', result);
 // }
-
-
-var Filter = require('bad-words'),
-    filter = new Filter();
 
  
 client.on('error', (err) => {
@@ -52,51 +50,63 @@ const StoriesController = {
         for(let i = 0; i < stories.length; i++) {
             stories[i].onlineCount = (users && stories[i]._id in users) ? Object.values(users[stories[i]._id]).length : 0;
         }
-        res.send({stories}).status(200);
+        res.status(200).send({stories});
     },
     async show(req, res) {
         try {
             const story = await Story.findById(req.params.id).populate('words');
-            if(!story) throw new Error("No stories found");
-            res.send({story}).status(200);
+            if(!story) throw "No stories found";
+            res.status(200).send({story});
         } catch(error) {
-            res.send({error}).status(400);
+            res.status(400).send(error);
         }
     },
     async create(req, res) {
-        const badStrings = ["nig", "niig", "niiig", "niiiig", "niiiiig", "niiiiiig", "niiiiiiig", "niiiiiiiiig", "fcuk", "fuk", "fuck", "siht", "shit", "cunt", "cnut", "kkk"];
-
         const testString = req.query.name.toLowerCase() + req.query.description.toLowerCase();
-        const isProfane = filter.isProfane(testString) || badStrings.some(str => testString.includes(str));
+        const isProfane = isWordProfane(testString);
+
         try {
             if(req.query.name.length > 40 || req.query.description.length > 100
                 || hasWordTooLong(req.query.name, 15) || hasWordTooLong(req.query.description, 20)) {
                 console.log("Failed to make book from " + req.query.name + " and " + req.query.description);
-                throw new Error("story too long");
+                throw {message: "Story name or description too long"};
             }
             if(isProfane || !(/^[a-z\d\-_\s]+$/i.test(testString.toLowerCase()))) {
                 console.log("Failed to make book from " + req.query.name + " and " + req.query.description);
-                throw new Error("unknown error");
+                throw {message: "Story name and description must be alphanumeric and clean"};
             }
+
+            const rules = JSON.parse(req.query.rules);
+            rules.dictionary = true;
+            rules.clean = true;
+
+            rules.bannedWords = rules.bannedWords ? rules.bannedWords.split(/,| /).filter(word => word !== "") : [];
+            rules.bannedWords = rules.bannedWords.map(word => word.toLowerCase());
+
+            rules.bannedCharacters = rules.bannedCharacters ? rules.bannedCharacters.split(/,| /).filter(char => char !== "") : [];
+            rules.bannedCharacters = rules.bannedCharacters.map(word => word.toLowerCase());
+
             const story = new Story({
                 name: req.query.name,
                 description: req.query.description,
+                rules,
+                customRules: req.query.customRules ? true : false,
                 words: [],
             });
     
             await story.save();
-            res.send({story}).status(200);
+            res.status(200).send({story});
         } catch(error) {
-            res.send({error}).status(400);
+            res.status(400).send(error);
         }
     },
     async delete(req, res) {
         try {
             const story = await Story.findById(req.params.id);
             story.remove();
-            res.send({story}).status(200);
+            res.status(200).send({story});
         } catch(error) {
-            res.send({error}).status(400);
+            res.status(400).send({error});
         }
     },
     // TODO: add a clear function

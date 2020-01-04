@@ -19,8 +19,6 @@ class Home extends Component {
     super();
     this.state = {
       stories: [],
-      // TODO THIS IS HELLA INSECURE
-      // endpoint: process.env.REACT_APP_API_URL || "http://127.0.0.1:4001",
       endpoint: process.env.NODE_ENV === "production" ? "https://weword.co" : "http://127.0.0.1:4001",
     };
   }

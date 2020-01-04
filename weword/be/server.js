@@ -3,7 +3,6 @@ const http = require('http');
 const socketIo = require('socket.io');
 const mongoose = require('mongoose');
 
-
 const redis = require('redis');
 
 // create and connect redis client to local instance.
@@ -25,6 +24,8 @@ const index = require('./routes/index');
 
 const storyRouter = require('./routes/stories');
 const wordRouter = require('./routes/words');
+
+const {Story} = require('./models');
 
 const {getWordError, baseErrorJSON} = require('./helpers/wordErrors');
 
@@ -116,8 +117,31 @@ io.on("connection", socket => {
       }
     });
 
-    socket.on("addWord", ({word, room}, callback) => {
-      const error = getWordError(word, baseErrorJSON);
+    socket.on("addWord", async ({word, room}, callback) => {
+      // get rules
+      const story = await Story.findById(room);
+      if(!story) {
+        callback("invalid story");
+        return;
+      };
+
+      let error;
+      if(story.rules.maxWords > 1) {
+        let words = word.split(' ');
+        if(words.length > story.rules.maxWords || words.length < story.rules.minWords) {
+          error = "submission has too many or too few words";
+        } else {
+          for(let i = 0; i < words.length; i++) {
+            error = getWordError(words[i], story.rules);
+            if(error) {
+              error = "Issue with word '" + words[i] + "': " + error;
+              break;
+            };
+          }
+        }
+      } else {
+        error = getWordError(word, story.rules);
+      }
       if(error) {
         callback(error);
       } else {
@@ -150,7 +174,7 @@ io.on("connection", socket => {
             callback(error);
           }
         } else {
-          callback("word submitted to fast!");
+          callback("word submitted too fast!");
         }
       }
     });

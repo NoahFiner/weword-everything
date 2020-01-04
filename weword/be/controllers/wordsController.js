@@ -5,17 +5,17 @@ const WordController = {
     async show(req, res) {
         try {
             const word = await Word.find(req.params.wordId);
-            res.send({word}).status(200);
+            res.status(200).send({word});
         } catch(error) {
-            res.send({error}).status(400);
+            res.status(400).send({error});
         }
     },
     async write(req, res) {
         try {
             const result = await writeWord(req.params.storyId, req.query.word);
-            res.send({result}).status(200);
+            res.status(200).send({result});
         } catch(error) {
-            res.send({error}).status(400);
+            res.status(400).send({error});
         }
     },
 };

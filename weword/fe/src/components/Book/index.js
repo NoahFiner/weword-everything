@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faStar } from '@fortawesome/free-solid-svg-icons';
 import './Book.scss';
 
 class Book extends Component {
@@ -21,6 +21,14 @@ class Book extends Component {
               </div>
               <div className="book-footer">
                 <p>{this.props.story.length} words</p>
+                {
+                  !this.props.story.customRules ? <></> : (
+                    <div className="custom-outer">
+                      <FontAwesomeIcon icon={faStar} className="custom-icon" ></FontAwesomeIcon>
+                      <p>Custom rules</p>
+                    </div>
+                  )
+                }
                 {
                   !this.props.story.onlineCount ? <></> : (
                     <div className="online-outer">

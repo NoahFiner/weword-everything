@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const {baseErrorJSON} = require('../helpers/wordErrors');
+const {baseErrorJSON, validateRules} = require('../helpers/wordErrors');
 
 const storyModel = new Schema({
     // rules: {
@@ -21,9 +21,14 @@ const storyModel = new Schema({
         type: Number,
         default: 0,
     },
+    customRules: {
+        type: Boolean,
+        default: false,
+    },
     rules: {
         type: Object,
         default: baseErrorJSON,
+        validate: {validator: validateRules}
     },
     words: [
         {
@@ -33,4 +38,5 @@ const storyModel = new Schema({
 }, {
     timestamps: true
 });
+
 module.exports = mongoose.model('Story', storyModel);
