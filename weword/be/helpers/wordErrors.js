@@ -36,9 +36,6 @@ const getWordError = (word, ruleJSON) => {
     if("minWords" in ruleJSON && word.split(' ').length < ruleJSON.minWords) {
         return "'" + word + "' has less words than " + ruleJSON.minWords;
     }
-    if("maxWords" in ruleJSON && word.split(' ').length > ruleJSON.maxWords) {
-        return "'" + word + "' has more words than " + ruleJSON.maxWords;
-    }
     if((GLOBAL_CLEAN || ("clean" in ruleJSON && ruleJSON.clean)) && isWordProfane(word)) {
         return "let's keep it civil :)";
     }

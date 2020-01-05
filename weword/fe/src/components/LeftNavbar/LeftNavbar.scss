@@ -2,12 +2,72 @@ $break-large: 900px;
 
 .left-navbar {
   width: 15%;
-  padding: 1rem;
   margin-left: 2.5vw;
   position: fixed;
 
-  @media screen and (max-width: $break-large) {
+  .left-content {
+    position: relative;
+    padding: 1rem;
+    width: 100%;
+    height: 100vh;
+    background-color: #f0f0f0;
+    overflow: scroll;
+  }
+
+  .sidebar-toggle {
     display: none;
+  }
+
+  @media screen and (max-width: $break-large) {
+    width: 60%;
+    height: 100vh;
+    overflow-x: visible;
+    z-index: 100;
+    margin-left: 0;
+    transition: margin-left 0.25s;
+
+    .left-content {
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      height: 97vh;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+
+    .sidebar-toggle {
+      height: 2rem;
+      width: 2rem;
+      padding: 0.5em;
+      position: absolute;
+      display: block;
+      top: 1rem;
+      left: calc(100% + 2rem);
+      color: #333;
+      cursor: pointer;
+      box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.3);
+      background-color: #f0f0f0;
+      border: 5px solid #CDDFD8;
+      z-index: 100;
+
+      transform: scaleX(-1);
+      transition: transform 0.25s;
+    }
+
+
+    &.collapsed {
+      margin-left: calc(-60% - 2rem);
+      
+      .left-content {
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0.5);
+      }
+
+      .sidebar-toggle {
+        transform: scaleX(1);
+        box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+      }
+    }
   }
 }
 

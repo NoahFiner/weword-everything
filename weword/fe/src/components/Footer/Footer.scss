@@ -13,6 +13,14 @@ $break-large: 900px;
   position: fixed;
   background-color: #f0f0f0;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  transition: margin-top 0.25s, height 0.25s;
+
+  @media screen and (max-width: $break-large) {
+    &.error {
+      height: 11rem;
+      margin-top: -11rem;
+    }
+  }
 
   &.inactive>form {
     opacity: 0.5;

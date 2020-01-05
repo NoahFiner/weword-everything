@@ -49,7 +49,7 @@ class Footer extends Component {
 
   render() {
     return (
-      <div className={"footer " + (this.props.inactive ? 'inactive':  '')}>
+      <div className={"footer " + (this.props.inactive ? 'inactive':  '') + ' ' + (this.state.error ? 'error' : '')}>
         <form onSubmit={this.handleSubmit}>
           <h1>{this.props.multipleWords ? "Add word(s)" : "Add a word"}:</h1>
           <input type="text" onChange={this.handleChange} value={this.state.word} className={"add-word-input " + (this.state.error ? 'error' : '')}></input>

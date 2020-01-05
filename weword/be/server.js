@@ -129,7 +129,9 @@ io.on("connection", socket => {
       if(story.rules.maxWords > 1) {
         let words = word.split(' ');
         if(words.length > story.rules.maxWords || words.length < story.rules.minWords) {
-          error = "submission has too many or too few words";
+          error = story.rules.minWords === story.rules.maxWords
+            ? "you must submit " + story.rules.minWords + " words at a time"
+            : "you must submit between " + story.rules.minWords + " and " + story.rules.maxWords + " words at a time";
         } else {
           for(let i = 0; i < words.length; i++) {
             error = getWordError(words[i], story.rules);
@@ -140,7 +142,11 @@ io.on("connection", socket => {
           }
         }
       } else {
-        error = getWordError(word, story.rules);
+        if(word.split(' ') !== 1) {
+          error = "you can only submit one word at a time";
+        } else {
+          error = getWordError(word, story.rules);
+        }
       }
       if(error) {
         callback(error);

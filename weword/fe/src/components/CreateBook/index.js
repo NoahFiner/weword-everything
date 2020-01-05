@@ -100,20 +100,20 @@ class CreateBook extends Component {
           <input type="text" name="description" value={this.state.description} onChange={this.handleInputChange} />
           <div className="input-button" onClick={this.toggleRulesShown}>Add custom rules</div>
           <div className="rules-outer" style={{display: this.state.rulesShown ? 'block' : 'none'}}>
+          <label>
+              Submission length
+              <span>How many words can each person add a time?</span>
+            </label>
+            Minimum words: <input min="1" max="16" type="number" name="minWords" value={this.state.minWords} onChange={this.handleInputChange} />
+            Maximum words: <input min="1" max="16" type="number" name="maxWords" value={this.state.maxWords} onChange={this.handleInputChange} />
+
+            
             <label>
               Word length
               <span>How long can each word be?</span>
             </label>
             Minimum characters: <input min="1" max="16" type="number" name="minLength" value={this.state.minLength} onChange={this.handleInputChange} />
             Maximum characters: <input min="1" max="16" type="number" name="maxLength" value={this.state.maxLength} onChange={this.handleInputChange} />
-
-
-            <label>
-              Sentence length
-              <span>How many words can each submission have?</span>
-            </label>
-            Minimum words: <input min="1" max="16" type="number" name="minWords" value={this.state.minWords} onChange={this.handleInputChange} />
-            Maximum words: <input min="1" max="16" type="number" name="maxWords" value={this.state.maxWords} onChange={this.handleInputChange} />
 
             <label>
               Banned words
