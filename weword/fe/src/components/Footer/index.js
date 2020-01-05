@@ -45,6 +45,8 @@ class Footer extends Component {
         this.setState({word: ''});
       }
     });
+
+    this.wordInput.focus();
   }
 
   render() {
@@ -52,7 +54,7 @@ class Footer extends Component {
       <div className={"footer " + (this.props.inactive ? 'inactive':  '') + ' ' + (this.state.error ? 'error' : '')}>
         <form onSubmit={this.handleSubmit}>
           <h1>{this.props.multipleWords ? "Add word(s)" : "Add a word"}:</h1>
-          <input type="text" onChange={this.handleChange} value={this.state.word} className={"add-word-input " + (this.state.error ? 'error' : '')}></input>
+          <input type="text" ref={(input) => { this.wordInput = input; }}  onChange={this.handleChange} value={this.state.word} className={"add-word-input " + (this.state.error ? 'error' : '')}></input>
           <input type="submit" value="submit" className="button"></input>
         </form>
         <p id="error-msg">

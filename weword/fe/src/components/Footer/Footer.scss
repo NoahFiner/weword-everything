@@ -76,9 +76,11 @@ $break-large: 900px;
 
     .button {
       background-color: #B09398;
+      background: #B09398;
+      border: none;
       color: #fff;
       font-weight: 900;
-      border-radius: 2px;
+      border-radius: 2px !important;
       margin: 0.5em;
       padding: 0.5em;
       cursor: pointer;
