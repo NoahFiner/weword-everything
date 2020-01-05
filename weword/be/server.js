@@ -134,7 +134,7 @@ io.on("connection", socket => {
           for(let i = 0; i < words.length; i++) {
             error = getWordError(words[i], story.rules);
             if(error) {
-              error = "Issue with word '" + words[i] + "': " + error;
+              // error = "Issue with word '" + words[i] + "': " + error;
               break;
             };
           }

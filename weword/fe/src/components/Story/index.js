@@ -106,7 +106,7 @@ class ConnectedStory extends Component {
             </TransitionGroup>
           </div>
         </div>
-        <Footer inactive={this.state.disabled} socket={this.state.socket} storyId={this.state.story._id} />
+        <Footer inactive={this.state.disabled} socket={this.state.socket} storyId={this.state.story._id} multipleWords={this.state.story.rules && this.state.story.rules.maxWords > 1} />
       </div>
     );
   }

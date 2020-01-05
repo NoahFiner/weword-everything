@@ -25,10 +25,10 @@ class LeftNavbar extends Component {
             <div className="divider"></div>
             <div className="rules">
               {showCustomRules && <h3><FontAwesomeIcon icon={faStar} className="icon" ></FontAwesomeIcon>Custom Rules</h3>}
-              {showWordLength && <p><span>Word length:</span> {rules.minLength}-{rules.maxLength} letters</p>}
-              {showSentenceLength && <p><span>Sentence length:</span> {rules.minWords}-{rules.maxWords} words</p>}
-              {showBannedWords && <p><span>Banned words:</span> {rules.bannedWords.join(', ')}</p>}
-              {showBannedLetters && <p><span>Banned letters:</span> {rules.bannedCharacters.join(', ')}</p>}
+              {showWordLength && <p>Words must be <span>{rules.minLength}-{rules.maxLength}</span> letters</p>}
+              {showSentenceLength && <p>Submissions must be <span> {rules.minWords}-{rules.maxWords}</span> words</p>}
+              {showBannedWords && <p>You cannot use <span>{rules.bannedWords.join(', ')}</span></p>}
+              {showBannedLetters && <p>Words cannot contain <span>{rules.bannedCharacters.join(', ')}</span></p>}
             </div>
           </>
         )}

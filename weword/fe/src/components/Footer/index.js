@@ -51,7 +51,7 @@ class Footer extends Component {
     return (
       <div className={"footer " + (this.props.inactive ? 'inactive':  '')}>
         <form onSubmit={this.handleSubmit}>
-          <h1>Add a word:</h1>
+          <h1>{this.props.multipleWords ? "Add word(s)" : "Add a word"}:</h1>
           <input type="text" onChange={this.handleChange} value={this.state.word} className={"add-word-input " + (this.state.error ? 'error' : '')}></input>
           <input type="submit" value="submit" className="button"></input>
         </form>

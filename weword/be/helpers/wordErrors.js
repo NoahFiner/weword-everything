@@ -28,16 +28,16 @@ const GLOBAL_DICTIONARY = true;
 
 const getWordError = (word, ruleJSON) => {
     if("minLength" in ruleJSON && word.length < ruleJSON.minLength) {
-        return "word is shorter than minimum length of " + ruleJSON.minLength;
+        return "'" + word + "' is shorter than minimum length of " + ruleJSON.minLength;
     }
     if("maxLength" in ruleJSON && word.length > ruleJSON.maxLength) {
-        return "word is longer than maximum length of " + ruleJSON.maxLength;
+        return "'" + word + "' is longer than maximum length of " + ruleJSON.maxLength;
     }
     if("minWords" in ruleJSON && word.split(' ').length < ruleJSON.minWords) {
-        return "submission has less words than " + ruleJSON.minWords;
+        return "'" + word + "' has less words than " + ruleJSON.minWords;
     }
     if("maxWords" in ruleJSON && word.split(' ').length > ruleJSON.maxWords) {
-        return "submission has more words than " + ruleJSON.maxWords;
+        return "'" + word + "' has more words than " + ruleJSON.maxWords;
     }
     if((GLOBAL_CLEAN || ("clean" in ruleJSON && ruleJSON.clean)) && isWordProfane(word)) {
         return "let's keep it civil :)";
@@ -50,21 +50,20 @@ const getWordError = (word, ruleJSON) => {
     const isPunctuation = !punctuation.every(char => char !== lowerCaseWord);
 
     if(!(/^[a-zA-Z]+$/.test(lowerCaseWord)) && !isPunctuation && isNaN(lowerCaseWord)) {
-        return "word can either be a word, number, or punctuation";
+        return "'" + word + "' isn't a word, number, or punctuation";
     }
 
-    if((GLOBAL_DICTIONARY || ("dictionary" in ruleJSON && ruleJSON.dictionary)) && !words.check(lowerCaseWord) && !isPunctuation && isNaN(lowerCaseWord)) {
-        return "word must be in dictionary or be a number/punctuation";
+    if((GLOBAL_DICTIONARY || ("dictionary" in ruleJSON && ruleJSON.dictionary)) && !words.check(lowerCaseWord)) {
+        return "'" + word + "' isn't in the dictionary";
     }
-
 
     if("bannedCharacters" in ruleJSON && ruleJSON.bannedCharacters.some(char => lowerCaseWord.includes(char.toLowerCase()))) {
         for(let i = 0; i < ruleJSON.bannedCharacters.length; i++) {
-            if(lowerCaseWord.includes(ruleJSON.bannedCharacters[i].toLowerCase())) return "submission contains banned character " + ruleJSON.bannedCharacters[i];
+            if(lowerCaseWord.includes(ruleJSON.bannedCharacters[i].toLowerCase())) return "'" + word + "' contains banned character '" + ruleJSON.bannedCharacters[i] + "'";
         }
     }
     if("bannedWords" in ruleJSON && ruleJSON.bannedWords.some(bannedWord => lowerCaseWord.split(' ').some(compWord => compWord === bannedWord.toLowerCase()))) {
-        return "submission contains a banned word";
+        return "'" + word + "' is a banned word";
     }
     return null;
 };
