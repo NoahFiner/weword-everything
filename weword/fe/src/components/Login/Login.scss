@@ -12,10 +12,15 @@ form#login {
   align-items: center;
   margin: 2em 0;
 
+  @media screen and (max-width: $break-large) {
+    flex-wrap: wrap;
+  }
+
   h2 {
     font-family: "Crimson Text";
     font-weight: 100;
     font-size: 2rem;
+    margin-right: 1rem;
   }
 
   label {
@@ -61,6 +66,10 @@ form#login {
     padding: 1em;
     margin-left: 1rem;
     margin-top: 0;
+    @media screen and (max-width: $break-large) {
+      margin-top: 1rem;
+      margin-left: 0;
+    }
     cursor: pointer;
     outline: 0;
     border: 0;

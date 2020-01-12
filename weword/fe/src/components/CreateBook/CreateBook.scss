@@ -70,3 +70,14 @@ input[type=submit], .input-button {
   color: red;
   font-weight: 900;
 }
+
+textarea,
+input.text,
+input[type="text"],
+input[type="number"],
+input[type="button"],
+input[type="submit"],
+.input-checkbox {
+  -webkit-appearance: none;
+  border-radius: 0;
+}

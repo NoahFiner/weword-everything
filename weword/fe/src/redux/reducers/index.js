@@ -20,6 +20,9 @@ function rootReducer(state = initialState, action) {
         if(badStrings.some(str => lowerCase.includes(str))) {
             throw new Error("Please keep your name civil :)");
         }
+        if(action.payload.length === 0) {
+            throw new Error("Please enter a name");
+        }
         if(action.payload.length >= 16) {
             throw new Error("Name is too long");
         }
