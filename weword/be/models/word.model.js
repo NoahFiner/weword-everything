@@ -5,6 +5,9 @@ const wordModel = new Schema({
         type: String,
         default: "Guest"
     },
+    authorID: {
+        type: String,
+    },
     word: {
         type: String,
         required: true,

@@ -1,9 +1,10 @@
 const {Word, Story} = require("../models");
 
-const writeWord = async (storyId, wordText, author) => {
+const writeWord = async (storyId, wordText, author, authorID) => {
     const story = await Story.findById(storyId);
 
     const word = new Word({
+        authorID,
         word: wordText,
         author: author ? author : undefined,
         story: storyId,
@@ -24,6 +25,7 @@ const getWords = async (storyId) => {
         author: 1,
         word: 1,
         _id: 0,
+        authorID: 0,
         createdAt: 1,
     });
     if(!story) throw new Error("No stories found");

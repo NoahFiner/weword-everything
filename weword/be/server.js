@@ -170,7 +170,7 @@ io.on("connection", socket => {
             // TODO: make this promise based also or something
             timeout[room] = setTimeout(async () => {
               // Room's id is going to be the storyId too
-              writtenWord = await writeWord(room, word, username);
+              writtenWord = await writeWord(room, word, username, socket.id);
               words[room] = await getWords(room);
               //TODO: make the timeout longer for the person that submitted the word
               io.to(room).emit("enable");
