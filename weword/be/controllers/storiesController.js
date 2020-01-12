@@ -54,7 +54,7 @@ const StoriesController = {
     },
     async show(req, res) {
         try {
-            const story = await Story.findById(req.params.id).populate('words');
+            const story = await Story.findById(req.params.id).populate('words', 'author word createdAt');
             if(!story) throw "No stories found";
             res.status(200).send({story});
         } catch(error) {

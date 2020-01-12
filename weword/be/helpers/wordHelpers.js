@@ -21,13 +21,7 @@ const writeWord = async (storyId, wordText, author, authorID) => {
 }
 
 const getWords = async (storyId) => {
-    const story = await Story.findById(storyId).populate('words', {
-        author: 1,
-        word: 1,
-        _id: 0,
-        authorID: 0,
-        createdAt: 1,
-    });
+    const story = await Story.findById(storyId).populate('words', 'author word createdAt');
     if(!story) throw new Error("No stories found");
     return story.words;
 }
