@@ -26,32 +26,52 @@ const baseErrorJSON = {
 const GLOBAL_CLEAN = true;
 const GLOBAL_DICTIONARY = true;
 
+const punctuationCount = word => {
+    const punctuation = ['.', ',', '"', "'", '-', '!', '&', '(', ')', '=', '+', '/', '?', ':', ';', '~'];
+    let count = 0;
+    word.split('').forEach(char => {
+        if (punctuation.some(punc => punc === char)) count++;
+    });
+    return count;
+};
+
+// remove any of the allowed punctuation
+const clearPunctuation = word => {
+    const punctuation = ['.', ',', '"', "'", '-', '!', '&', '(', ')', '=', '+', '/', '?', ':', ';', '~'];
+    return word.split('').filter(char => {
+        return punctuation.every(punc => punc !== char);
+    }).join('');
+}
+
 const getWordError = (word, ruleJSON) => {
+    // we include some single-characer letters because those aren't approved by the dictionary without our manual help
+    const punctuation = ['.', ',', '"', "'", '-', '!', '&', '(', ')', '=', '+', '/', '?', ':', ';', '~'];
+    const isPunctuation = word.split('').every(char => !punctuation.every(punc => punc !== char));
+
+    if(isPunctuation && word.length <= ruleJSON.maxLength) return null;
+
+    // if("minWords" in ruleJSON && word.split(' ').length < ruleJSON.minWords) {
+    //     return "'" + word + "' has less words than " + ruleJSON.minWords;
+    // }
+    if((GLOBAL_CLEAN || ("clean" in ruleJSON && ruleJSON.clean)) && isWordProfane(word)) {
+        return "let's keep it civil :)";
+    }
+    
+    lowerCaseWord = clearPunctuation(word.toLowerCase());
+
+    if(!(/^[a-zA-Z]+$/.test(lowerCaseWord)) && isNaN(lowerCaseWord)) {
+        return "'" + word + "' must either be only a word, number, or have valid punctuation";
+    }
+
+    if((GLOBAL_DICTIONARY || ("dictionary" in ruleJSON && ruleJSON.dictionary)) && (!words.check(lowerCaseWord) && lowerCaseWord !== 'a' && lowerCaseWord !== 'i' && lowerCaseWord !== 'o')) {
+        return "'" + word + "' isn't in the dictionary";
+    }
+
     if("minLength" in ruleJSON && word.length < ruleJSON.minLength) {
         return "'" + word + "' is shorter than minimum length of " + ruleJSON.minLength;
     }
     if("maxLength" in ruleJSON && word.length > ruleJSON.maxLength) {
         return "'" + word + "' is longer than maximum length of " + ruleJSON.maxLength;
-    }
-    if("minWords" in ruleJSON && word.split(' ').length < ruleJSON.minWords) {
-        return "'" + word + "' has less words than " + ruleJSON.minWords;
-    }
-    if((GLOBAL_CLEAN || ("clean" in ruleJSON && ruleJSON.clean)) && isWordProfane(word)) {
-        return "let's keep it civil :)";
-    }
-    
-    lowerCaseWord = word.toLowerCase();
-
-    // we include some single-characer letters because those aren't approved by the dictionary without our manual help
-    const punctuation = ['.', ',', '"', "'", '-', '!', '&', '(', ')', '=', '+', '/', '?', ':', ';', '~', 'i', 'o', 'u', 'a'];
-    const isPunctuation = !punctuation.every(char => char !== lowerCaseWord);
-
-    if(!(/^[a-zA-Z]+$/.test(lowerCaseWord)) && !isPunctuation && isNaN(lowerCaseWord)) {
-        return "'" + word + "' isn't a word, number, or punctuation";
-    }
-
-    if((GLOBAL_DICTIONARY || ("dictionary" in ruleJSON && ruleJSON.dictionary)) && !words.check(lowerCaseWord)) {
-        return "'" + word + "' isn't in the dictionary";
     }
 
     if("bannedCharacters" in ruleJSON && ruleJSON.bannedCharacters.some(char => lowerCaseWord.includes(char.toLowerCase()))) {

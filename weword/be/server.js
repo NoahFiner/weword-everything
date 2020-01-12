@@ -27,7 +27,7 @@ const wordRouter = require('./routes/words');
 
 const {Story} = require('./models');
 
-const {getWordError, baseErrorJSON} = require('./helpers/wordErrors');
+const {getWordError} = require('./helpers/wordErrors');
 
 const app = express();
 app.use(cors());
@@ -130,8 +130,8 @@ io.on("connection", socket => {
         let words = word.split(' ');
         if(words.length > story.rules.maxWords || words.length < story.rules.minWords) {
           error = story.rules.minWords === story.rules.maxWords
-            ? "you must submit " + story.rules.minWords + " words at a time"
-            : "you must submit between " + story.rules.minWords + " and " + story.rules.maxWords + " words at a time";
+            ? "you must submit " + story.rules.minWords + " words at a time but you submitted " + words.length
+            : "you must submit between " + story.rules.minWords + " and " + story.rules.maxWords + " words, but you submitted " + words.length;
         } else {
           for(let i = 0; i < words.length; i++) {
             error = getWordError(words[i], story.rules);
@@ -142,7 +142,7 @@ io.on("connection", socket => {
           }
         }
       } else {
-        if(word.split(' ') !== 1) {
+        if(word.split(' ').length !== 1) {
           error = "you can only submit one word at a time";
         } else {
           error = getWordError(word, story.rules);
