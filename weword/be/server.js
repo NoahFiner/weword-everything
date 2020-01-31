@@ -149,6 +149,9 @@ io.on("connection", socket => {
         }
       }
 
+      if(word.split('').every(c => c === ' ') || word == '') error = 'you must submit a word';
+
+
       // see if someone tried to make a profane word separated by punctuation
       console.log(clearPunctuation(word));
       if(isWordProfane(clearPunctuation(word))) error = "word cannot be profane";
