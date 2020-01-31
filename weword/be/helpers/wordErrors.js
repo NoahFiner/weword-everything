@@ -158,4 +158,5 @@ module.exports = {
     isWordProfane,
     validateRules,
     getWordError,
+    clearPunctuation,
 }

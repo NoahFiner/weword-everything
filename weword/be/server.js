@@ -27,7 +27,7 @@ const wordRouter = require('./routes/words');
 
 const {Story} = require('./models');
 
-const {getWordError} = require('./helpers/wordErrors');
+const {getWordError, clearPunctuation, isWordProfane} = require('./helpers/wordErrors');
 
 const app = express();
 app.use(cors());
@@ -148,6 +148,11 @@ io.on("connection", socket => {
           error = getWordError(word, story.rules);
         }
       }
+
+      // see if someone tried to make a profane word separated by punctuation
+      console.log(clearPunctuation(word));
+      if(isWordProfane(clearPunctuation(word))) error = "word cannot be profane";
+
       if(error) {
         callback(error);
       } else {
