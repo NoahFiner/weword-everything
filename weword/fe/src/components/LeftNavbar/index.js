@@ -20,12 +20,14 @@ class LeftNavbar extends Component {
     const rules = this.props.story.rules;
     let showWordLength, showSentenceLength, showBannedWords, showBannedLetters, showCustomRules = false;
     if(this.props.story.customRules) {
-      showWordLength = rules.minLength !== 1 || (rules.maxLength !== 16 && rules.maxLength !== 50);
-      showSentenceLength = rules.minWords !== 1 || rules.maxWords !== 1;
+      // Due to types disagreeing (strings vs ints), we need to use != instead of !== (not a good look :/)
+      showWordLength = rules.minLength != 1 || (rules.maxLength != 16 && rules.maxLength != 50);
+      showSentenceLength = rules.minWords != 1 || rules.maxWords != 1;
       showBannedWords = rules.bannedWords.length > 0;
       showBannedLetters = rules.bannedCharacters.length > 0;
       showCustomRules = showWordLength || showSentenceLength || showBannedLetters || showBannedWords;
     }
+    let hasCustomRules = showWordLength || showSentenceLength || showBannedWords || showBannedLetters || showCustomRules;
     
     return (
       <div className={"left-navbar " + (this.state.collapsed ? "collapsed" : "")}>
@@ -34,7 +36,7 @@ class LeftNavbar extends Component {
           <Logo size='80' />
           <h1>{this.props.story.name}</h1>
           <p>{this.props.story.description}</p>
-          {this.props.story.customRules && (
+          {hasCustomRules && (
             <>
               <div className="divider"></div>
               <div className="rules">

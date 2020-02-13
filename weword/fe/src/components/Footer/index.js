@@ -11,7 +11,7 @@ const mapStateToProps = state => {
 class Footer extends Component {
   constructor(props) {
     super(props);
-    this.state = {word: '', error: ''}
+    this.state = {word: '', error: ''};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);

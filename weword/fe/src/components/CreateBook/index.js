@@ -13,7 +13,6 @@ class CreateBook extends Component {
       title: '',
       description: '',
       error: null,
-      customRules: false,
       rulesShown: false,
       minLength: 1,
       maxLength: 16,
@@ -39,10 +38,6 @@ class CreateBook extends Component {
     const value = target.value;
     const name = target.name;
 
-    if(name !== "description" && name !== "title") this.setState({customRules: true});
-    console.log(name);
-    console.log(this.state.customRules);
-
     this.setState({
       [name]: value,
       error: null,
@@ -54,7 +49,6 @@ class CreateBook extends Component {
     const params = {
       name: this.state.title,
       description: this.state.description,
-      customRules: this.state.customRules,
       rules: {
         minLength: this.state.minLength,
         maxLength: this.state.maxLength,
@@ -64,6 +58,13 @@ class CreateBook extends Component {
         bannedCharacters: this.state.bannedCharacters,
       }
     }
+    // we need to use == instead of === because of int to string comparisons
+    if(!(
+      this.state.minLength == 1 && this.state.maxLength == 16
+      && this.state.maxWords == 1 && this.state.minWords == 1
+      && this.state.bannedWords.length === 0
+      && this.state.bannedCharacters.length === 0
+    )) params.customRules = true;
     try {
       const {data} = await axios.post(this.state.endpoint + '/create', null, {params});
       ReactGA.pageview("/stories/create");
