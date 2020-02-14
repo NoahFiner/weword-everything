@@ -3,7 +3,7 @@ const {Story} = require("../models/story.model");
 var Filter = require('bad-words'),
     filter = new Filter();
 
-filter.addWords("bullshit", "bullshitter", "bullshat", "shat", "shitter");
+filter.addWords("bullshit", "bullshitter", "bullshat", "shat", "shitter", "monkey", "monkeys", "badass", "badasses", "bi", "honkies", "honky", "transgender", "tranny", "masturbated", "masturbator", "masturbate", "dong", "peen", "masturbating", "peens", "dongs", "bis", "honky", "booty", "butt", "butthole", "cancer", "cancers", "cancerous", "sexual", "sex", "gay", "gayer", "gayest", "gays");
 
 const badStrings = ["nig", "niig", "niiig", "niiiig", "niiiiig", "niiiiiig", "niiiiiiig", "niiiiiiiiig", "fcuk", "fuk", "fuck", "siht", "shit", "cunt", "cnut", "kkk"];
 filter.addWords(...badStrings);
