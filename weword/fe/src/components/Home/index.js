@@ -39,8 +39,13 @@ class Home extends Component {
     return (
       <div className="everything-outer">
         <Logo size='150' />
-        <h1>Write a story with a bunch of random people online</h1>
-        <p>(and follow us at <a href="https://twitter.com/weword_co" className="link" target="_blank">@weword_co</a> or give <a className="link" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdTaoCoy686evMyAnDO5djYzo3JxUpRk2UFRQIM7rZ8iR49sw/viewform?usp=sf_link">anonymous feedback</a> while you're at it)</p>
+        <h1>We wrote** a story with a bunch of random people online</h1>
+	<p>WeWord was a glorious, hilarious experiment on the capabilities of the internet crowdsourcing stories.</p>
+	<p>Unfortunately, 4chan is also a part of that internet.</p>
+	<p>The ways to get around the spam filter was honestly very impressive. I guess it's applying creativity in a new way :)</p>
+	<p>For now, WeWord has been put to rest.</p>
+	<p>I'll code up an archived version soon ;)</p>
+        {/*<p>(and follow us at <a href="https://twitter.com/weword_co" className="link" target="_blank">@weword_co</a> or give <a className="link" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdTaoCoy686evMyAnDO5djYzo3JxUpRk2UFRQIM7rZ8iR49sw/viewform?usp=sf_link">anonymous feedback</a> while you're at it)</p>
         <Login></Login>
           <TransitionGroup className="books-outer">
               {stories.sort((a, b) => {
@@ -60,7 +65,7 @@ class Home extends Component {
                   <Book create />
                 </Link>
               </CSSTransition>
-          </TransitionGroup>
+          </TransitionGroup>*/}
       </div>
     );
   }
