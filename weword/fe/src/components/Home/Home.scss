@@ -22,6 +22,19 @@ h1 {
   margin: 1rem 0;
 }
 
+.home-screen > p {
+  margin: 1rem 0;
+}
+
+.home-screen > hr {
+  width: 10vw;
+  outline: 0;
+  border: 0;
+  height: 1px;
+  background-color: #bbb;
+  margin: 0 0 2rem 0;
+}
+
 .everything-outer {
   padding: 2vw 10vw;
 }

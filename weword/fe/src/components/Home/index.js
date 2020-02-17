@@ -37,22 +37,21 @@ class Home extends Component {
   render() {
     const stories = this.state.stories;
     return (
-      <div className="everything-outer">
+      <div className="everything-outer home-screen">
         <Logo size='150' />
-        <h1>We wrote** a story with a bunch of random people online</h1>
-	<p>WeWord was a glorious, hilarious experiment on the capabilities of the internet crowdsourcing stories.</p>
-	<p>Unfortunately, 4chan is also a part of that internet.</p>
-	<p>The ways to get around the spam filter was honestly very impressive. I guess it's applying creativity in a new way :)</p>
-	<p>For now, WeWord has been put to rest.</p>
-	<p>I'll code up an archived version soon ;)</p>
-        {/*<p>(and follow us at <a href="https://twitter.com/weword_co" className="link" target="_blank">@weword_co</a> or give <a className="link" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdTaoCoy686evMyAnDO5djYzo3JxUpRk2UFRQIM7rZ8iR49sw/viewform?usp=sf_link">anonymous feedback</a> while you're at it)</p>
+        <h1>We **wrote** a story with a bunch of random people online</h1>
+        <p>WeWord was an experiment on the capabilities of the internet crowdsourcing stories.</p>
+        <p>Unfortunately, 4chan is also a part of that internet.</p>
+        <p>For now, <strong>WeWord has been put to rest.</strong> You can view archived stories below (before the 4chan raid) but <strong>may not submit any more words</strong>.</p>
+        <p>(in the meantime, follow us at <a href="https://twitter.com/weword_co" className="link" target="_blank">@weword_co</a> or give <a className="link" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdTaoCoy686evMyAnDO5djYzo3JxUpRk2UFRQIM7rZ8iR49sw/viewform?usp=sf_link">anonymous feedback</a>)</p>
+        <hr></hr>
         <Login></Login>
           <TransitionGroup className="books-outer">
               {stories.sort((a, b) => {
                 if (a.onlineCount === b.onlineCount) {
                   return a.length < b.length ? 1 : -1
-               }
-               return a.onlineCount < b.onlineCount ? 1 : -1;
+                }
+                return a.onlineCount < b.onlineCount ? 1 : -1;
               }).map((story, idx) => {
                 return (<CSSTransition key={story._id} timeout={500} style={{transitionDelay: idx*50+'ms'}} classNames="story">
                   <Link to={"/stories/" + story._id}>
@@ -65,7 +64,7 @@ class Home extends Component {
                   <Book create />
                 </Link>
               </CSSTransition>
-          </TransitionGroup>*/}
+          </TransitionGroup>
       </div>
     );
   }

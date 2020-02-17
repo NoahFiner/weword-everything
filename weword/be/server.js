@@ -156,6 +156,9 @@ io.on("connection", socket => {
       console.log(clearPunctuation(word));
       if(isWordProfane(clearPunctuation(word))) error = "word cannot be profane";
 
+      // TEMPORARYILY BAN SUBMITTING ANY WORDS
+      error = "WeWord is currently archived and you cannot submit words.";
+
       if(error) {
         callback(error);
       } else {
