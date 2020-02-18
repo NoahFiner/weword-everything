@@ -3,7 +3,8 @@ const {Story} = require("../models/story.model");
 var Filter = require('bad-words'),
     filter = new Filter();
 
-filter.addWords("bullshit", "bullshitter", "bullshat", "shat", "shitter", "monkey", "monkeys", "badass", "badasses", "bi", "honkies", "honky", "transgender", "tranny", "masturbated", "masturbator", "masturbate", "dong", "peen", "masturbating", "peens", "dongs", "bis", "honky", "booty", "butt", "butthole", "cancer", "cancers", "cancerous", "sexual", "sex", "gay", "gayer", "gayest", "gays");
+filter.addWords("bullshit", "bullshitter", "bullshat", "shat", "shitter", "monkey", "monkeys", "badass", "badasses", "bi", "honkies", "honky", "transgender", "tranny", "masturbated", "masturbator", "masturbate", "dong", "peen", "masturbating", "peens", "dongs", "bis", "honky", "booty", "butt", "butthole", "cancer", "cancers", "cancerous", "sexual", "sex", "gay", "gayer", "gayest", "gays",
+"sneed", "sneeds", "trannies", "rape", "raping", "rapes", "rapist", "raper", "raped", "chink", "chinks", "janny", "jannies", "gook", "gooks", "penises", "penile", "erection", "homosexual", "homosexuality", "homosexuals", "negroid", "negroids", "negroes", "negro", "boobie", "boobies", "coom", "cooming", "cooms", "vagina", "vaginas", "retards", "retard", "retarded", "poppycock", "poppycocks", "lesbians", "lesbianism", "weiner", "weiners", "autism", "autistic", "autistics", "autist", "snigger", "sniggers", "kike", "kikes", "jigaboo", "jigaboos", "aids", "snigger", "sniggers", "kike", "kikes", "jigaboo", "jigaboos", "aids", "niggardly", "dicks", "testicle", "testicles", "benis");
 
 const badStrings = ["nig", "niig", "niiig", "niiiig", "niiiiig", "niiiiiig", "niiiiiiig", "niiiiiiiiig", "fcuk", "fuk", "fuck", "siht", "shit", "cunt", "cnut", "kkk"];
 filter.addWords(...badStrings);
