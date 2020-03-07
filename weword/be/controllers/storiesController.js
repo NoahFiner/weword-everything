@@ -68,7 +68,7 @@ const StoriesController = {
 
         try {
             throw {message: "WeWord is currently archived. You may no longer create stories."};
-            
+
             if(req.query.name.length > 40 || req.query.description.length > 100
                 || hasWordTooLong(req.query.name, 15) || hasWordTooLong(req.query.description, 20)) {
                 console.log("Failed to make book from " + req.query.name + " and " + req.query.description);
@@ -106,7 +106,7 @@ const StoriesController = {
     async delete(req, res) {
         try {
             const story = await Story.findById(req.params.id);
-            story.remove();
+            // story.remove();
             res.status(200).send({story});
         } catch(error) {
             res.status(400).send({error});
