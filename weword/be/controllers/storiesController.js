@@ -62,10 +62,13 @@ const StoriesController = {
         }
     },
     async create(req, res) {
+        // weword is archived
         const testString = req.query.name.toLowerCase() + req.query.description.toLowerCase();
         const isProfane = isWordProfane(testString);
 
         try {
+            throw {message: "WeWord is currently archived. You may no longer create stories."};
+            
             if(req.query.name.length > 40 || req.query.description.length > 100
                 || hasWordTooLong(req.query.name, 15) || hasWordTooLong(req.query.description, 20)) {
                 console.log("Failed to make book from " + req.query.name + " and " + req.query.description);
